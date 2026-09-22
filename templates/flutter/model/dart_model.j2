@@ -1,0 +1,18 @@
+class {{ schema.class_name }} {
+{% for field in schema.fields %}
+  {{ field.dart_type }}? {{ field.name }};
+{% endfor %}
+
+    {{ schema.class_name }}({
+{% for field in schema.fields %}
+    this.{{ field.name }},
+{% endfor %}
+  });
+
+    factory {{ schema.class_name }}.fromJson(Map<String, dynamic> json) =>
+        {{ schema.class_name }}(
+{% for field in schema.fields %}
+        {{ field.name }}: json['{{ field.name }}']{% if field.default_value is not none %} ?? {{ field.default_value }}{% endif %},
+{% endfor %}
+    );
+}
